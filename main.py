@@ -89,6 +89,20 @@ def sales_over_time(sales_data: list) -> dict:
 
     return sales_by_date
 
+def sales_analytics_max_value(total_sales: dict) -> str:
+    """
+    Нахождение продукта с максимальной выручкой.
+    
+    Args:
+        total_sales: Словарь с суммами по продажам.
+
+    Returns:
+        ключ словоря с максимальным значением
+    """
+    max_key_name = max(total_sales, key=total_sales.get)
+
+    return max_key_name
+
 if __name__ == "__main__":
 
     # Константа имя файла
@@ -96,7 +110,6 @@ if __name__ == "__main__":
 
     # получаем продажи
     sales_data = read_sales_data(FILE_NAME)
-    print(sales_data)
     # Сумма продаж по продуктам
     total_sales = total_sales_per_product(sales_data)
     print(total_sales)
@@ -104,4 +117,11 @@ if __name__ == "__main__":
     sales_by_date = sales_over_time(sales_data)
     print(sales_by_date)
 
+    # Нахождение продукта с максимальной выручкой
+    max_revenue_product = sales_analytics_max_value(total_sales)
+    print(f"Продукт с максимальной выручкой: {max_revenue_product}")
+
+    # Нахождение дня с максимальной выручкой
+    max_sales_date = sales_analytics_max_value(sales_by_date)
+    print(f"День с максимальной выручкой: {max_sales_date}")
 
