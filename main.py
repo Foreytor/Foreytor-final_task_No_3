@@ -1,5 +1,5 @@
 import csv
-from datetime import date
+import matplotlib.pyplot as plt
 
 def read_sales_data(file_path: str) -> list[dict]:
     """
@@ -26,7 +26,7 @@ def read_sales_data(file_path: str) -> list[dict]:
         for row in reader:
             row_dict = {}
             for i, value in enumerate(row):
-                row_dict[headers[i].strip()] = value
+                row_dict[headers[i].strip()] = value.strip()
             data_list_sales.append(row_dict)
 
     return data_list_sales
@@ -103,6 +103,26 @@ def sales_analytics_max_value(total_sales: dict) -> str:
 
     return max_key_name
 
+def build_graph(total_sales: list, out_file_name: str = "file.png"):
+    """
+    Строит график общей суммы продаж по каждому продукту
+    и сохраняет файл в текущей директории.
+    Args:
+        total_sales: Словарь с суммами по продажам,
+        out_file_name: Выходной файл в формате png.
+    """
+    # сбрасываем состояние plt
+    plt.clf()
+    # Построение графика
+    plt.bar(total_sales.keys(), total_sales.values())
+    plt.xlabel('Название продукта')
+    plt.ylabel('Общая сумма продаж')
+    plt.title('Сумма продаж по продуктам')
+    plt.xticks(rotation=45, ha='right')
+    plt.tight_layout()
+    plt.savefig(out_file_name)
+    plt.show()
+
 if __name__ == "__main__":
 
     # Константа имя файла
@@ -112,7 +132,6 @@ if __name__ == "__main__":
     sales_data = read_sales_data(FILE_NAME)
     # Сумма продаж по продуктам
     total_sales = total_sales_per_product(sales_data)
-    print(total_sales)
     # Количество продаж по датам
     sales_by_date = sales_over_time(sales_data)
     print(sales_by_date)
@@ -124,4 +143,10 @@ if __name__ == "__main__":
     # Нахождение дня с максимальной выручкой
     max_sales_date = sales_analytics_max_value(sales_by_date)
     print(f"День с максимальной выручкой: {max_sales_date}")
+
+    # Построение графика продаж по продуктам
+    build_graph(total_sales, "sales_chart_on_name.png")
+
+    # Построение графика продаж по дням
+    build_graph(sales_by_date, "sales_chart_on_date.png")
 
