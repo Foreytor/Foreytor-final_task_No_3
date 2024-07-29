@@ -14,7 +14,7 @@ def read_sales_data(file_path: str) -> list[dict]:
         где каждый словарь представляет строку из файла CSV.
     """
     # Открытие файла CSV в режиме чтения
-    with open(FILE_NAME, 'r', newline='') as file:
+    with open(file_path, 'r', newline='') as file:
         # Список продаж
         data_list_sales = []
         reader = csv.reader(file)
@@ -103,7 +103,11 @@ def sales_analytics_max_value(total_sales: dict) -> str:
 
     return max_key_name
 
-def build_graph(total_sales: list, out_file_name: str = "file.png"):
+def build_graph(total_sales: list,
+                out_file_name: str = "file.png",
+                xlabel: str = "Название",
+                ylabel: str = "Общая сумма",
+                title: str = "Сумма продаж"):
     """
     Строит график общей суммы продаж по каждому продукту
     и сохраняет файл в текущей директории.
@@ -114,10 +118,10 @@ def build_graph(total_sales: list, out_file_name: str = "file.png"):
     # сбрасываем состояние plt
     plt.clf()
     # Построение графика
-    plt.bar(total_sales.keys(), total_sales.values())
-    plt.xlabel('Название продукта')
-    plt.ylabel('Общая сумма продаж')
-    plt.title('Сумма продаж по продуктам')
+    plt.bar(total_sales.keys(), total_sales.values(),)
+    plt.xlabel(xlabel)
+    plt.ylabel(ylabel)
+    plt.title(title)
     plt.xticks(rotation=45, ha='right')
     plt.tight_layout()
     plt.savefig(out_file_name)
@@ -144,8 +148,8 @@ if __name__ == "__main__":
     print(f"День с максимальной выручкой: {max_sales_date}")
 
     # Построение графика продаж по продуктам
-    build_graph(total_sales, "sales_chart_on_name.png")
+    build_graph(total_sales, "sales_chart_on_name.png", xlabel="Название продукта")
 
     # Построение графика продаж по дням
-    build_graph(sales_by_date, "sales_chart_on_date.png")
+    build_graph(sales_by_date, "sales_chart_on_date.png", xlabel="День")
 
