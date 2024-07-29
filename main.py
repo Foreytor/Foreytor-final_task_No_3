@@ -61,6 +61,34 @@ def total_sales_per_product(sales_data: list) -> dict:
             total_sales[product_name] = quantity * price
     return total_sales
 
+def sales_over_time(sales_data: list) -> dict:
+    """
+    Нахождение общей суммы продаж за дату
+    
+    Args:
+        sales_data: список продаж.
+
+    Returns:
+        возвращает словарь,
+        где ключ - дата,
+        а значение общая сумма продаж за эту дату
+    """
+
+    sales_by_date = {}
+
+    for item in sales_data:
+        date = item['date']
+        quantity = int(item['quantity'].strip())
+        price = int(item['price'].strip())
+        total_price = quantity * price
+
+        if date in sales_by_date:
+            sales_by_date[date] += total_price
+        else:
+            sales_by_date[date] = total_price
+
+    return sales_by_date
+
 if __name__ == "__main__":
 
     # Константа имя файла
@@ -68,9 +96,12 @@ if __name__ == "__main__":
 
     # получаем продажи
     sales_data = read_sales_data(FILE_NAME)
+    print(sales_data)
     # Сумма продаж по продуктам
     total_sales = total_sales_per_product(sales_data)
     print(total_sales)
-
+    # Количество продаж по датам
+    sales_by_date = sales_over_time(sales_data)
+    print(sales_by_date)
 
 
