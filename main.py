@@ -134,7 +134,6 @@ if __name__ == "__main__":
     total_sales = total_sales_per_product(sales_data)
     # Количество продаж по датам
     sales_by_date = sales_over_time(sales_data)
-    print(sales_by_date)
 
     # Нахождение продукта с максимальной выручкой
     max_revenue_product = sales_analytics_max_value(total_sales)
